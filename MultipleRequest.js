@@ -1,0 +1,30 @@
+async function fetchCombinedData() {
+  const todoUrl = "https://jsonplaceholder.typicode.com/todos/1";
+  const postUrl = "https://jsonplaceholder.typicode.com/posts/1";
+
+  try {
+    const [todoResponse, postResponse] = await Promise.all([
+      fetch(todoUrl),
+      fetch(postUrl)
+    ]);
+
+    if (!todoResponse.ok || !postResponse.ok) {
+      throw new Error("One or both fetch requests failed");
+    }
+
+    const todoData = await todoResponse.json();
+    const postData = await postResponse.json();
+
+    const combinedData = {
+      todo: todoData,
+      post: postData
+    };
+
+    console.log("Combined data:", combinedData);
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}
+
+// Call the asynchronous function
+fetchCombinedData();
